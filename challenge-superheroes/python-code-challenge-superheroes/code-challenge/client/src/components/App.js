@@ -22,7 +22,7 @@ function App() {
             <Power />
           </Route>
           <Route exact path="/heroes/:id">
-            <Hero />
+            {/* <Hero /> */}
           </Route>
           <Route exact path="/">
             <Home />
