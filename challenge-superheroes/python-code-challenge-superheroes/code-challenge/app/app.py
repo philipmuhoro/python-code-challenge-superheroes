@@ -127,11 +127,27 @@ api.add_resource(PowersByID, '/powers/<int:id>')
 class HeroPowers(Resource):
     def post(self):
         try:
-            new_record=  HeroPower(
-                strength= request.form['strength'],
-                power_id=  int(request.form['power_id']),
-                hero_id=   int(request.form['hero_id']),
-            )
+            # new_record=  HeroPower(
+            #     strength= request.form['strength'],
+            #     power_id=  int(request.form['power_id']),
+            #     hero_id=   int(request.form['hero_id']),
+            # )
+            # Get Json  data and add to database
+            data= request.get_json()
+            strength= data.get('strength')
+            power_id= data.get('power_id')
+            hero_id= data.get('hero_id')
+            
+            power= Power.query.get(power_id)
+            hero=  Hero.query.get(hero_id)
+                
+            if not (power and hero):
+                error_dict=  { "error":  "Missing hero or power"}
+                response= make_response(jsonify(error_dict), 404)
+                return response
+            
+            new_record= HeroPower(strength=strength,  power_id=power_id, hero_id=hero_id)
+            
             db.session.add(new_record)
             db.session.commit()
             
