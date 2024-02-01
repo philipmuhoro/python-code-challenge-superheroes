@@ -27,7 +27,7 @@ def handle_not_found(e):
 
 @app.route('/')
 def home():
-    return "Flask code challenge"
+    return "<h1>Flask Week One Code Challenge<h1/>"
 
 class Heroes(Resource):
     def get(self):
